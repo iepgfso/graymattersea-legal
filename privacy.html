@@ -33,9 +33,10 @@
     <p class="eff">生效日期：2026-06-16</p>
     <p>灰质之海（Gray Matter Sea，以下简称“本应用”）是一款灵感记录应用。我们高度重视你的隐私。本政策说明本应用如何处理你的信息。</p>
 
-    <h2>一、概述：本地优先，云备份可选</h2>
+    <h2>一、概述：本地优先，云备份与本地 AI 可选</h2>
     <p>本应用<strong>默认将你的全部数据保存在你设备的本地数据库中</strong>，离线即可使用全部本地功能。本应用不含广告，不含第三方分析 / 追踪 SDK。</p>
     <p>本应用提供一项<strong>可选的云备份功能</strong>：仅当你<strong>主动注册 / 登录账号并发起备份</strong>后，你的灵感数据才会上传到云端服务器，用于换机恢复。<strong>未登录时，本应用不会上传你的任何内容。</strong></p>
+    <p>本应用还提供一项<strong>可选的本地 AI 整理功能</strong>：仅当你主动在「设置 → AI 整理」中配置 Ollama 地址，并在灵感详情页点击「AI 整理」时，所选灵感及其关联/演化提示词才会发送到你填写的 Ollama 服务地址（通常是你自己的电脑或局域网设备）。这部分数据不会发送给灰质之海云端。</p>
 
     <h2>二、可选云备份如何处理数据</h2>
     <table>
@@ -53,12 +54,12 @@
     <h2>三、权限及用途</h2>
     <table>
       <tr><th>权限</th><th>用途</th><th>处理方式</th></tr>
-      <tr><td>网络（INTERNET）</td><td>可选云备份 / 恢复</td><td>仅在你主动开启云备份时联网；不开启则不产生网络请求</td></tr>
+      <tr><td>网络（INTERNET）</td><td>可选云备份 / 恢复；可选本地 AI 整理</td><td>云备份仅在你主动开启时连接 Supabase；AI 整理仅在你主动配置并点击时连接你填写的 Ollama 地址</td></tr>
       <tr><td>麦克风（RECORD_AUDIO）</td><td>语音记录灵感</td><td>语音转文字在你的设备本地完成</td></tr>
       <tr><td>相机（CAMERA）</td><td>拍照以识别其中文字</td><td>文字识别（OCR）在你的设备本地完成</td></tr>
       <tr><td>读取媒体/相册（Android 12 及以下）</td><td>从相册选图以识别文字</td><td>Android 13+ 使用系统照片选择器，无需此权限</td></tr>
     </table>
-    <p>麦克风、相机、相册数据均在你的设备本地处理，不会被上传。</p>
+    <p>麦克风、相机、相册数据均在你的设备本地处理，不会被上传。AI 整理直连你配置的 Ollama 服务地址，灰质之海不会代理、存储或读取这次请求的内容。</p>
 
     <h2>四、数据的存储与删除</h2>
     <ul>
@@ -68,20 +69,23 @@
         <a href="delete.html">在线账号删除页面</a> 操作，也可发送邮件至下方联系邮箱请求删除。</li>
     </ul>
 
-    <h2>五、数据共享</h2>
+    <h2>五、本地 AI 整理</h2>
+    <p>「AI 整理」直连你配置的 Ollama 服务地址。是否联网、发送到哪台设备，取决于你在应用内填写的地址。请只填写你信任的本机或局域网 Ollama 地址。</p>
+
+    <h2>六、数据共享</h2>
     <p>本应用不会将你的任何数据共享给第三方（云备份所用的基础设施提供商 Supabase 仅作为数据处理者为你存储数据），也不会用于训练或商业分析。</p>
 
-    <h2>六、儿童隐私</h2>
+    <h2>七、儿童隐私</h2>
     <p>本应用面向一般用户，不专门面向 13 岁以下儿童，也不会有意收集儿童个人信息。</p>
 
-    <h2>七、政策变更</h2>
-    <p>若未来版本引入新的需要联网的功能（例如可选的「AI 想法分析」或端到端加密），我们将在启用前更新本政策、在应用内明确告知，并征得你的同意。</p>
+    <h2>八、政策变更</h2>
+    <p>若未来版本引入新的云端 AI 代理、第三方 AI 服务或端到端加密，我们将在启用前更新本政策、在应用内明确告知，并征得你的同意。</p>
 
-    <h2>八、联系我们</h2>
+    <h2>九、联系我们</h2>
     <p>如有任何隐私相关问题、反馈或账号 / 数据删除请求，请联系：<strong>iepgfso@gmail.com</strong></p>
 
     <hr />
-    <p class="en">English summary: Gray Matter Sea is local-first — by default all your ideas, associations and evolution records are stored locally on your device, and the app works fully offline with no ads and no third-party analytics. Cloud backup is optional: only after you actively register/sign in and trigger a backup are your ideas uploaded to the cloud (Supabase) for cross-device restore. The data we then process is your account email plus the ideas/associations/evolutions you back up. Access is isolated per account via Row Level Security; transit is HTTPS and storage is encrypted at rest (no end-to-end encryption in this version). You can delete local data anytime via Settings → Clear all data, delete your cloud snapshot via Settings → Cloud backup → Delete cloud backup, permanently delete your account in-app or via the online deletion page, or request deletion by email. Microphone and camera are used only for on-device voice-to-text and image OCR. Contact: iepgfso@gmail.com.</p>
+    <p class="en">English summary: Gray Matter Sea is local-first — by default all your ideas, associations and evolution records are stored locally on your device, and the app works fully offline with no ads and no third-party analytics. Cloud backup is optional: only after you actively register/sign in and trigger a backup are your ideas uploaded to the cloud (Supabase) for cross-device restore. Local AI organize is also optional: only after you configure an Ollama address and tap AI organize will the selected idea prompt be sent to that user-provided Ollama endpoint, usually your own computer or LAN device; it is not sent to Gray Matter Sea cloud. You can delete local data anytime via Settings → Clear all data, delete your cloud snapshot via Settings → Cloud backup → Delete cloud backup, permanently delete your account in-app or via the online deletion page, or request deletion by email. Microphone and camera are used only for on-device voice-to-text and image OCR. Contact: iepgfso@gmail.com.</p>
   </div>
 </body>
 </html>
