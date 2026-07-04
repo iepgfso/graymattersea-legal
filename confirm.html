@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>灰质之海 · 邮箱确认</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
+      background: #020810; color: #cfe6ee;
+      font-family: -apple-system, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    }
+    .card {
+      width: 100%; max-width: 460px; background: #0a1628;
+      border: 1px solid #1a2a3a; border-radius: 14px; padding: 28px;
+    }
+    h1 { font-size: 22px; margin: 0 0 10px; color: #e8f8fb; font-weight: 650; }
+    p { font-size: 14px; line-height: 1.8; color: #a8ccd8; }
+    .ok {
+      margin: 18px 0; padding: 12px 14px; border-radius: 10px;
+      background: rgba(83, 170, 119, .1); border: 1px solid rgba(83, 170, 119, .32);
+      color: #a9ddb8; font-size: 13px;
+    }
+    .muted { color: #6f98a8; font-size: 12px; }
+    a { color: #7cc4de; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>邮箱确认完成</h1>
+    <p>如果你是从「灰质之海」注册确认邮件来到这里，邮箱确认流程已经完成。</p>
+    <div class="ok">现在可以回到 App，在「设置 → 云备份」里使用该邮箱和密码登录。</div>
+    <p class="muted">
+      如果 App 仍提示无法登录，请等待几秒后重试，或重新发送确认邮件。
+      如需删除账号与云端备份，请前往
+      <a href="./delete.html">账号 / 数据删除页</a>。
+    </p>
+  </main>
+</body>
+</html>

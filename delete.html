@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>灰质之海 · 删除账号与数据</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
+      background: #020810; color: #cfe6ee;
+      font-family: -apple-system, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    }
+    .card {
+      width: 100%; max-width: 440px; background: #0a1628;
+      border: 1px solid #1a2a3a; border-radius: 14px; padding: 28px;
+    }
+    h1 { font-size: 20px; margin: 0 0 6px; color: #e8f8fb; font-weight: 600; }
+    p { font-size: 14px; line-height: 1.7; color: #a8ccd8; }
+    .warn {
+      background: rgba(217,138,107,.08); border: 1px solid rgba(217,138,107,.3);
+      border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #e7b39c;
+    }
+    label { display: block; font-size: 12px; color: #8bbac8; margin: 16px 0 6px; letter-spacing: .5px; }
+    input {
+      width: 100%; padding: 11px 12px; border-radius: 8px;
+      background: #020810; border: 1px solid #1a2a3a; color: #e8f8fb; font-size: 15px;
+    }
+    button {
+      width: 100%; margin-top: 22px; padding: 12px; border: none; border-radius: 8px;
+      background: #b4543b; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: default; }
+    .msg { margin-top: 16px; font-size: 13px; min-height: 18px; }
+    .ok { color: #7bbf8a; } .err { color: #e7b39c; }
+    .foot { margin-top: 20px; font-size: 12px; color: #5f8392; }
+    a { color: #64a0c8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>删除「灰质之海」账号与数据</h1>
+    <p>登录你的账号后，可永久删除云端账号及全部云端备份。此操作<strong>不可恢复</strong>。
+       存储在你手机本地的灵感数据不受影响。</p>
+    <div class="warn">删除后将无法再用该账号登录或恢复云端数据。</div>
+
+    <label for="email">邮箱</label>
+    <input id="email" type="email" autocomplete="username" placeholder="you@example.com" />
+    <label for="password">密码</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="账号密码" />
+
+    <button id="btn">登录并永久删除账号</button>
+    <div id="msg" class="msg"></div>
+
+    <p class="foot">如有疑问或无法自助删除，请联系：
+      <a href="mailto:iepgfso@gmail.com">iepgfso@gmail.com</a></p>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // 公开的项目地址与 publishable/anon key（安全靠 RLS + Edge Function 校验兜底）
+    const SUPABASE_URL = "https://adtqfbfhdiovqlsxmeft.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_A4ssCmPTSc2OmI9fdwZGNA_ReM_pSn3";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const btn = document.getElementById("btn");
+    const msg = document.getElementById("msg");
+
+    function show(text, ok) {
+      msg.textContent = text;
+      msg.className = "msg " + (ok ? "ok" : "err");
+    }
+
+    btn.addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      if (!email || !password) { show("请输入邮箱和密码", false); return; }
+
+      btn.disabled = true;
+      show("正在登录…", true);
+      try {
+        const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInErr) { show("登录失败：" + signInErr.message, false); btn.disabled = false; return; }
+
+        show("正在删除账号…", true);
+        const { data, error } = await supabase.functions.invoke("delete-account");
+        if (error) { show("删除失败：" + error.message, false); btn.disabled = false; return; }
+        if (data && data.error) { show("删除失败：" + data.error, false); btn.disabled = false; return; }
+
+        await supabase.auth.signOut();
+        show("账号及云端数据已永久删除。", true);
+      } catch (e) {
+        show("出错了：" + e, false);
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
